@@ -1,0 +1,73 @@
+version: '3'
+
+tasks:
+  dev:
+    desc: "Free ports 58880/58888, then start the API (58880) and the dashboard (http://localhost:58888)"
+    cmds:
+      - task: kill-ports
+      - sleep 0.5
+      - task: start-all
+
+  start-all:
+    internal: true
+    deps:
+      - ui:server
+      - ui:dev
+
+  kill-ports:
+    desc: "Kill processes listening on ports 58888 (dashboard) and 58880 (API)"
+    cmds:
+      - lsof -ti:58888,58880 -sTCP:LISTEN | xargs kill -9 2>/dev/null || true
+
+  install:
+    desc: "Install dashboard dependencies and create .env from .env.example if missing"
+    cmds:
+      - test -f .env || cp .env.example .env
+      - cd ui && bun install
+
+  ui:server:
+    desc: "Start the FastAPI backend on port 58880"
+    cmds:
+      - uv run --script ui/server.py
+
+  ui:dev:
+    desc: "Start the Vite dev server on port 58888"
+    dir: ui
+    cmds:
+      - bun run dev
+
+  ui:build:
+    desc: "Type-check and build the dashboard"
+    dir: ui
+    cmds:
+      - bun run build
+
+  db:init:
+    desc: "Create the configured PostgreSQL database (if missing) and its tables"
+    cmds:
+      - uv run --with "psycopg[binary]>=3.1" python -c "import sys; sys.path.insert(0, 'scripts'); import db; print(db.setup())"
+
+  orient:
+    desc: "Orientation from the CLI: build | extract | check (e.g. task orient -- check)"
+    cmds:
+      - uv run --script scripts/orient.py {{.CLI_ARGS}}
+
+  scout:
+    desc: "Live hunt: discovery + qualification (spends Tavily credits and model calls). e.g. task scout -- --scope all"
+    cmds:
+      - uv run --script scripts/scout.py {{.CLI_ARGS}}
+
+  tailor:
+    desc: "Tailor a resume, rationale, and PDF for one opportunity. e.g. task tailor -- workspace/opportunities/Acme/role.md"
+    cmds:
+      - uv run --script scripts/tailor.py {{.CLI_ARGS}}
+
+  reindex:
+    desc: "Sync workspace/opportunities markdown into PostgreSQL"
+    cmds:
+      - uv run --script scripts/reindex_disk.py
+
+  clean-snippets:
+    desc: "Convert escaped-HTML posting snippets to readable text in markdown and PostgreSQL"
+    cmds:
+      - uv run --script scripts/clean_snippets.py
