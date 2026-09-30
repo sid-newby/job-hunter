@@ -17,6 +17,12 @@ I dont do alot of open source, but times are tough out there. Use my app. Find a
 - **Qualification:** every fresh posting is scored 0-100 against your background, with strengths, gaps, and location checks.
 - **Tailoring:** a resume and rationale drawn only from your verified facts, checked by a lint gate, and rendered to PDF.
 
+The screenshots follow a hunt through results and review. Some show the earlier Jobs-Gemini branding.
+
+![A job hunt in progress with live search and fetch logs](public/Screenshot%202026-09-29%20at%2010.28.31%E2%80%AFPM.png)
+
+*Watch the hunt search job boards and evaluate roles as it runs.*
+
 ---
 
 ## How it works
@@ -45,6 +51,10 @@ flowchart LR
 
 Every model call goes through `scripts/llm.py`, which speaks to **OpenRouter** (any model with structured outputs) or to
 your local **Claude Code** login. Pick one in the dashboard; you can switch any time.
+
+![Dashboard with pipeline counts, filters, and scored job opportunities](public/Screenshot%202026-09-29%20at%2010.51.53%E2%80%AFPM.png)
+
+*Review the search at a glance, then narrow the results by company, sector, or location.*
 
 ---
 
@@ -161,10 +171,6 @@ Clone the project into your home folder and step into it:
 git clone https://github.com/sid-newby/job-hunter.git ~/job-hunter
 ```
 
-> [!NOTE]
-> While the repository is private, cloning needs collaborator access and a GitHub sign-in. Run `brew install gh`, then
-> `gh auth login` (choose **GitHub.com → HTTPS → Login with a web browser**), then the clone command above.
-
 ```bash
 cd ~/job-hunter
 ```
@@ -222,10 +228,18 @@ the **Filed** tab (score 70+), **In Review** (50-69), or **Weak Fit**.
 > minutes or, when OpenRouter is busy, hours. Keep `task dev` running until the job finishes, or switch the **Qualify**
 > model to `openai/gpt-6-luna` in Settings (gear icon) for immediate results at twice the price.
 
+![Scored opportunity cards showing job titles, compensation, and review actions](public/Screenshot%202026-09-29%20at%2010.52.10%E2%80%AFPM.png)
+
+*Compare fit scores, compensation, and work arrangements before opening a role.*
+
 ### 11. Tailor a resume
 
 Open a filed role and click **Tailor**. Add any inside knowledge or angle you want, then generate. You get a resume, a
 rationale that traces every claim to your facts, and a PDF download button.
+
+![Role details showing compensation, benefits, a fit summary, and the original posting](public/Screenshot%202026-09-29%20at%2010.52.26%E2%80%AFPM.png)
+
+*Read the fit summary and original posting before choosing Tailor Resume.*
 
 ### Everyday use
 
@@ -237,6 +251,10 @@ rationale that traces every claim to your facts, and a PDF download button.
 | Update your profile | Gear icon → Settings → Profile, or **Re-run orientation** |
 | Get the latest version | `cd ~/job-hunter && git pull && task install` |
 | Stop PostgreSQL | `brew services stop postgresql@18` |
+
+![A set of Amazon opportunities with fit scores and compensation details](public/Screenshot%202026-09-29%20at%2010.52.57%E2%80%AFPM.png)
+
+*Focus on one employer and compare the roles that fit your search.*
 
 ### Troubleshooting
 
