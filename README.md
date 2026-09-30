@@ -299,7 +299,8 @@ set in your shell take precedence over `.env`.
 
 ## Your workspace
 
-Everything personal lives in `workspace/`, which git ignores.
+Your candidate files live in `workspace/`, which git ignores. API keys and database settings live in `.env`; job records
+and usage records also live in PostgreSQL. Read [SECURITY.md](SECURITY.md) before sharing your working copy or screenshots.
 
 | Path | What it is |
 |---|---|
@@ -369,3 +370,17 @@ ui/
   server.py            FastAPI
   src/                 React + MUI dashboard and orientation wizard
 ```
+
+## Issues, contributions, and security
+
+Please [open an issue](https://github.com/sid-newby/job-hunter/issues) if something breaks or you have an idea. I prefer
+issues first. I'll look at pull requests, but review and acceptance are not guaranteed. See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+For private vulnerability reports and guidance on protecting your data when using or sharing the project, see
+[SECURITY.md](SECURITY.md).
+
+## License
+
+Job Hunter is shared under the [MIT License](LICENSE). I built it to help people find a job. It is provided as-is,
+without warranties or guaranteed results. You are responsible for your use of it, including your data, applications,
+and API costs. The license contains the full warranty disclaimer and limitation of liability.
