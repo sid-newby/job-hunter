@@ -7,7 +7,9 @@
 ![LLM](https://img.shields.io/badge/LLM-OpenRouter%20%7C%20Claude%20Code-111827)
 
 A personal job-search radar. Tell it who you are, and it finds open roles that fit, scores each one against your
-real experience, and writes a tailored, fact-checked resume for the ones you pick.
+real experience, and writes a tailored, fact-checked resume for the ones you pick. 
+
+I dont do alot of open source, but times are tough out there. Use my app. Find a job. 
 
 - **Orientation:** upload your resume, LinkedIn export, or any document about your work, then talk or type freely about
   what you want next. The model drafts your evidence file, search plan, scoring rubric, and writing voice. You review and edit all of it.
