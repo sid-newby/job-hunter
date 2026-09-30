@@ -48,7 +48,7 @@ tasks:
       - uv run --with "psycopg[binary]>=3.1" python -c "import sys; sys.path.insert(0, 'scripts'); import db; print(db.setup())"
 
   orient:
-    desc: "Orientation from the CLI: build | extract | check (e.g. task orient -- check)"
+    desc: "Show orientation help; use task orient -- build | extract | check to run a command"
     cmds:
       - uv run --script scripts/orient.py {{.CLI_ARGS}}
 

@@ -327,7 +327,9 @@ Everything personal lives in `workspace/`, which git ignores.
 | `task ui:server` / `task ui:dev` | Runs just the API or just the dashboard |
 | `task ui:build` | Type-checks and builds the dashboard |
 | `task db:init` | Creates the database and tables from the command line |
+| `task orient` | Shows CLI help; for guided onboarding, use `task dev` and open http://localhost:58888 |
 | `task orient -- check` | Verifies your provider key and models (one tiny call) |
+| `task orient -- extract` | Extracts text from documents in `workspace/uploads/` |
 | `task orient -- build` | Builds the profile from `workspace/uploads/` and `workspace/interview.md` |
 | `task scout -- --scope all` | Live hunt. Spends Tavily credits and model calls. `--scope <key>`, `--query "..."`, `--metros a,b`, `--model`, `--json` |
 | `task scout -- --retriage [COMPANY]` | Re-routes low scores to weak fit or noise |

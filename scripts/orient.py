@@ -18,7 +18,8 @@ into their workspace: facts.md, skills.md, recommendations.md, voice.md, and pro
 Two 'orient' model passes: evidence (facts, skills, recommendations), then strategy (profile and voice).
 A rebuild treats the current workspace files as user-reviewed input and backs them up to workspace/.history/.
 
-Usage: uv run --script scripts/orient.py build | extract | check
+Usage: uv run --script scripts/orient.py [build | extract | check]
+Without a command, prints help. For guided setup, use the dashboard (task dev).
 """
 
 import argparse
@@ -199,9 +200,22 @@ async def build() -> int:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Build the workspace profile from uploads and notes.")
-    parser.add_argument("command", choices=["build", "extract", "check"])
+    parser = argparse.ArgumentParser(
+        description="Build the workspace profile from uploads and notes.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=(
+            "For guided setup, run `task dev` and open http://localhost:58888.\n\n"
+            "Commands:\n"
+            "  task orient -- build    Build a profile from saved uploads and notes (uses model calls).\n"
+            "  task orient -- extract  Extract text from uploaded documents.\n"
+            "  task orient -- check    Test provider credentials and models (uses one model call)."
+        ),
+    )
+    parser.add_argument("command", nargs="?", choices=["build", "extract", "check"])
     args = parser.parse_args()
+    if args.command is None:
+        parser.print_help()
+        return
     if args.command == "check":
         print(json.dumps(asyncio.run(llm.check())))
         return
