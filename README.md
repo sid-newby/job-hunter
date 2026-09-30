@@ -52,18 +52,11 @@ Plan on about 15 minutes. You need macOS 13 or later (Apple Silicon or Intel), a
 credit card for OpenRouter (a few dollars of credit goes a long way). Run each command in **Terminal**
 (Applications → Utilities → Terminal), one block at a time.
 
-### 1. Install Apple's command line tools
-
-This gives you `git`. If a dialog appears, click **Install** and wait for it to finish. If it says the tools are already
-installed, move on.
-
-```bash
-xcode-select --install
-```
-
-### 2. Install Homebrew
+### 1. Install Homebrew
 
 [Homebrew](https://brew.sh) installs everything else. Skip this step if `brew --version` already prints a version.
+If you don't have Apple's command line tools yet, the installer adds them too (they include `git`); accept the popup if
+one appears.
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -85,7 +78,7 @@ Check it worked:
 brew --version
 ```
 
-### 3. Install uv, Task, and Bun
+### 2. Install uv, Task, and Bun
 
 | Tool | Why |
 |---|---|
@@ -103,7 +96,7 @@ Check all three print a version:
 uv --version && task --version && bun --version
 ```
 
-### 4. Install and start PostgreSQL
+### 3. Install and start PostgreSQL
 
 The app stores every posting it finds in PostgreSQL.
 
@@ -122,13 +115,13 @@ Check it is running. You should see `accepting connections`:
 ```
 
 Homebrew's PostgreSQL lets your macOS user connect without a password, which matches the app's defaults (host
-`localhost`, port `5432`, your macOS username). The app creates its own database for you in step 10.
+`localhost`, port `5432`, your macOS username). The app creates its own database for you in step 9.
 
 > [!TIP]
 > Already running PostgreSQL another way (Postgres.app, Docker) on port 5432? You can use it instead: enter its port,
 > user, and password in the Database step. If both want port 5432, stop one of them.
 
-### 5. Optional extras
+### 4. Optional extras
 
 **agent-browser** reads job postings that only load with JavaScript, and renders resume PDFs. Without it, those postings
 keep their short snippet, and PDFs fall back to Google Chrome if you have it installed.
@@ -148,39 +141,32 @@ once, and sign in:
 brew install --cask claude-code
 ```
 
-### 6. Get your API keys
+### 5. Get your API keys
 
 | Key | Where | Notes |
 |---|---|---|
 | **OpenRouter** | [openrouter.ai](https://openrouter.ai): sign up, add credit under **Credits**, then create a key under **Keys** | Starts with `sk-or-`. Skip it if you'll only use Claude Code. |
 | **Tavily** | [tavily.com](https://tavily.com): sign up, copy the key from the dashboard | Starts with `tvly-`. Powers job search. |
 
-Keep both handy; you'll paste them into the app in step 10.
+Keep both handy; you'll paste them into the app in step 9.
 
-### 7. Download Job Hunter
-
-The repository is private, so the owner has to add your GitHub account as a collaborator first. Then sign in to GitHub
-from Terminal (choose **GitHub.com → HTTPS → Login with a web browser**):
-
-```bash
-brew install gh
-```
-
-```bash
-gh auth login
-```
+### 6. Download Job Hunter
 
 Clone the project into your home folder and step into it:
 
 ```bash
-gh repo clone sid-newby/job-hunter ~/job-hunter
+git clone https://github.com/sid-newby/job-hunter.git ~/job-hunter
 ```
+
+> [!NOTE]
+> While the repository is private, cloning needs collaborator access and a GitHub sign-in. Run `brew install gh`, then
+> `gh auth login` (choose **GitHub.com → HTTPS → Login with a web browser**), then the clone command above.
 
 ```bash
 cd ~/job-hunter
 ```
 
-### 8. Install the project
+### 7. Install the project
 
 This creates your settings file from the template (`.env.example` → `.env`) and installs the dashboard's packages:
 
@@ -188,7 +174,7 @@ This creates your settings file from the template (`.env.example` → `.env`) an
 task install
 ```
 
-### 9. Start the app
+### 8. Start the app
 
 ```bash
 task dev
@@ -199,7 +185,7 @@ http://127.0.0.1:58880` and Vite's `Local: http://localhost:58888/`, open **http
 
 Leave this Terminal window open while you use the app. Press `Ctrl+C` in it to stop.
 
-### 10. Walk through orientation
+### 9. Walk through orientation
 
 The first screen is a four-step wizard.
 
@@ -207,7 +193,7 @@ The first screen is a four-step wizard.
    - Choose **OpenRouter** (paste your `sk-or-` key) or **Claude Code** (no key needed).
    - Leave the suggested models, or pick others from the list. Each shows its price and whether it supports tools.
    - Paste your Tavily key, click **Save**, then **Test connection** and **Test Tavily** (uses one search credit).
-2. **Database**: leave the defaults unless you changed PostgreSQL in step 4, then click **Save & create database**.
+2. **Database**: leave the defaults unless you changed PostgreSQL in step 3, then click **Save & create database**.
 3. **About you**
    - Drag in your resume and anything else about your work: LinkedIn PDF export, performance reviews, portfolio write-ups,
      recommendation letters (PDF, DOCX, Markdown, text, HTML).
@@ -222,7 +208,7 @@ The first screen is a four-step wizard.
      - **Skills** maps each skill to its evidence.
    - Click **Save**, then **Finish**.
 
-### 11. Run your first hunt
+### 10. Run your first hunt
 
 Click **Hunt Opportunities**, pick a scope (or **All scopes**), optionally type a steer ("remote only", a company's
 Greenhouse or Ashby board URL, quoted titles), and start. The log shows each search, fetch, and score. Matches land in
@@ -233,7 +219,7 @@ the **Filed** tab (score 70+), **In Review** (50-69), or **Weak Fit**.
 > minutes or, when OpenRouter is busy, hours. Keep `task dev` running until the job finishes, or switch the **Qualify**
 > model to `openai/gpt-6-luna` in Settings (gear icon) for immediate results at twice the price.
 
-### 12. Tailor a resume
+### 11. Tailor a resume
 
 Open a filed role and click **Tailor**. Add any inside knowledge or angle you want, then generate. You get a resume, a
 rationale that traces every claim to your facts, and a PDF download button.
@@ -253,14 +239,14 @@ rationale that traces every claim to your facts, and a PDF download button.
 
 | Symptom | Fix |
 |---|---|
-| `command not found: brew`, `task`, `uv`, or `bun` | Close and reopen Terminal. On Apple Silicon, rerun the two `brew shellenv` lines from step 2. |
-| Database step says `connection refused` | `brew services start postgresql@18`, then check with the `pg_isready` command from step 4. |
+| `command not found: brew`, `task`, `uv`, or `bun` | Close and reopen Terminal. On Apple Silicon, rerun the two `brew shellenv` lines from step 1. |
+| Database step says `connection refused` | `brew services start postgresql@18`, then check with the `pg_isready` command from step 3. |
 | Database step says `role "..." does not exist` or `password authentication failed` | You're reaching a different PostgreSQL (often Docker). Enter its user and password, or its port. |
 | `task dev` says a port is in use | `task kill-ports`, then `task dev` again. |
 | **Test connection** lists problems | Pick a model that shows the **structured** chip; the Discovery model also needs **tools**. `:batch` models only work for Qualify. |
 | **Test connection** says the key was rejected | Re-copy the OpenRouter key and check you have credit. |
 | Tailor stops with "unresolved conflict markers" | Open Settings → Profile → Facts and resolve every `[[CONFLICT: ...]]` line. |
-| No PDF after tailoring | Install agent-browser (step 5) or Google Chrome. |
+| No PDF after tailoring | Install agent-browser (step 4) or Google Chrome. |
 | No mic button in About you | Your browser lacks speech recognition; use Chrome or Safari. |
 | A hunt finds nothing new | Everything found was already evaluated. Try another scope, add companies or queries in your profile, or steer the hunt. |
 
