@@ -48,8 +48,9 @@ your local **Claude Code** login. Pick one in the dashboard; you can switch any 
 
 ## Install on a Mac (step by step)
 
-Plan on about 15 minutes. You need macOS 13 or later (Apple Silicon or Intel), an admin password for Homebrew, and a
-credit card for OpenRouter (a few dollars of credit goes a long way). Run each command in **Terminal**
+Plan on about 15 minutes. You need macOS 13 or later (Apple Silicon or Intel), an admin password for Homebrew, and a credit card for OpenRouter (a few dollars of credit goes a long way, or use your CLAUDE CODE subscription on localhost). 
+
+Run each command in **Terminal**
 (Applications → Utilities → Terminal), one block at a time.
 
 ### 1. Install Homebrew
